@@ -23,4 +23,18 @@ document.getElementById('comment-form').addEventListener('submit', async (event)
     } else {
         alert('Failed to post comment.');
     }
+
+    // Fetch posts from the Flask API on PythonAnywhere
+fetch('https:///thibeauk.pythonanywhere.com/posts')
+.then(response => response.json())
+.then(posts => {
+    // Display the posts in the front-end
+    const postList = document.getElementById('post-list');
+    posts.forEach(post => {
+        const listItem = document.createElement('li');
+        listItem.textContent = post;
+        postList.appendChild(listItem);
+    });
+});
+
 });
