@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blog</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="css/styles.css"> <!-- Directly reference your static CSS -->
 </head>
 <body>
     <header>
@@ -15,12 +15,14 @@
     </header>
 
     <main>
-        {% block content %}{% endblock %}
+        <h2>Blog Posts</h2>
+        <ul id="post-list"></ul> <!-- This will be populated by JavaScript -->
     </main>
 
     <footer>
         <p>© 2024 My Blog</p>
     </footer>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script src="js/main.js"></script> <!-- Directly reference your static JS -->
 </body>
 </html>
