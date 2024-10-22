@@ -1,3 +1,9 @@
+// Replace with your actual PythonAnywhere URL
+const BACKEND_URL = "https://thibeauk.pythonanywhere.com";
+
+// Get the post slug dynamically (e.g., from the URL or from a hidden field)
+const postSlug = document.getElementById('post-slug').value;
+
 document.getElementById('comment-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -9,8 +15,8 @@ document.getElementById('comment-form').addEventListener('submit', async (event)
         return;
     }
 
-    // Send comment to the server
-    const response = await fetch(window.location.pathname + '/comment', {
+    // Send the comment to the backend on PythonAnywhere
+    const response = await fetch(`${BACKEND_URL}/post/${postSlug}/comment`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -19,22 +25,18 @@ document.getElementById('comment-form').addEventListener('submit', async (event)
     });
 
     if (response.ok) {
-        location.reload(); // Reload page to see the new comment
+        const newComment = await response.json();
+
+        // Instead of reloading the page, dynamically append the new comment
+        const commentSection = document.getElementById('comment-section');
+        const commentElement = document.createElement('p');
+        commentElement.innerHTML = `<strong>${newComment.alias}</strong>: ${newComment.text}`;
+        commentSection.appendChild(commentElement);
+
+        // Clear the form
+        document.getElementById('alias').value = '';
+        document.getElementById('comment').value = '';
     } else {
         alert('Failed to post comment.');
     }
-
-    // Fetch posts from the Flask API on PythonAnywhere
-fetch('https:///thibeauk.pythonanywhere.com/posts')
-.then(response => response.json())
-.then(posts => {
-    // Display the posts in the front-end
-    const postList = document.getElementById('post-list');
-    posts.forEach(post => {
-        const listItem = document.createElement('li');
-        listItem.textContent = post;
-        postList.appendChild(listItem);
-    });
-});
-
 });
